@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <a href="{% url 'register'%}">register</a>
+    <a href="{% url 'login'%}">login</a>
+    <a href="{% url 'logout'%}">logout</a>
+    
+    <form action="{% url 'add_todo' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Enter todo">
+        <input type="text" name="description" placeholder="Enter description">
+        <button type="submit">Add</button>
+    </form>
+
+
+    <div>
+        {% for todo in todos %}
+            <li>
+    <a href="{% url 'complete_todo' todo.id %}">complete</a>
+
+    {% if todo.complete %}
+        <p style="background:red;">{{ todo.title }} {{ todo.description }} {{ todo.due_date }}</p>
+    {% else %}
+        <p>{{ todo.title }} {{ todo.description }} {{ todo.due_date }}</p>
+    {% endif %}
+
+    <a href="{% url 'delete_todo' todo.id %}">delete</a>
+</li>
+
+        {% endfor %}
+    </div>
+</body>
+</html>
